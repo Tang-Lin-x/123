@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<!--引入代表json数据的js文件-->
+	<script type="text/javascript" src="js/cityjson.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		//console.log(data);//测试：jQuery环境，JSON数据，data是一个json对象：key,value
+		//四川省
+		//console.log(data[510000].name);
+		//console.log(data[510000].child[510100].child[510104]);
+		
+		//先把省的数据渲染上去~~~~~第一个下拉列表
+		$.each(data,function(index,pro){
+			//console.log(index+":"+pro.name);//key:value
+			$("#province").append("<option value="+index+">"+pro.name+"</optin>")
+		})
+
+		//解析省的数据显示到第一个下拉列表
+		//一点击省的触发的时候，解析出省的数据，显示到下拉列表
+		$("#province").bind("change",function(){
+			//点击了省下拉列表之后，要干嘛~~~~把当前省的数据渲染到city下拉列表
+			//清空上次的城市
+			$("#city").empty();
+			$("#city").append("<option>请选择</option>")
+			//第二个下拉列表:对应的省的市
+			var proId = $(this).val();
+			//console.log(proId);
+			var province = data[proId];
+			$.each(province.child,function(index,city){
+				$("#city").append("<option value="+index+">"+city.name+"</optin>")
+			});
+			
+			
+		})
+
+		$("#city").bind("change",function(){
+			//把当前市的数据渲染到zone下拉列表
+			//第三个下拉列表
+		})
+	})
+	</script>
+</head>
+<body>
+	<!--三级联动的界面-->
+	省：
+		<select id="province">
+			<option>请选择</option>
+		</select>
+	市：
+		<select id="city">
+			<option>请选择</option>
+		</select>
+	区：
+		<select id="zone">
+			<option>请选择</option>
+		</select>
+</body>
+</html>
